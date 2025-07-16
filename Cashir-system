@@ -1,0 +1,81 @@
+index.html
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+  <meta charset="UTF-8">
+  <title>سیستەمی کاشێری - سالار جەمال</title>
+  <style>
+    body { font-family: sans-serif; background: #f2f2f2; padding: 20px; }
+    .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1, h2 { text-align: center; }
+    input, button { padding: 10px; margin: 5px; width: 100%; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; text-align: center; }
+    .login { max-width: 300px; margin: auto; margin-top: 100px; background: white; padding: 20px; border-radius: 10px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="login" class="login">
+    <h2>چوونەژوورەوە</h2>
+    <input type="text" id="username" placeholder="ناوی بەکارهێنەر">
+    <input type="password" id="password" placeholder="پاسۆرد">
+    <button onclick="login()">چوونەژوورەوە</button>
+    <p id="loginError" style="color:red;"></p>
+  </div>
+
+  <div id="app" class="container hidden">
+    <h1>سیستەمی کاشێری - سالار جەمال</h1>
+    <input type="text" id="code" placeholder="کۆدی کاڵا">
+    <input type="text" id="name" placeholder="ناوی کاڵا">
+    <input type="number" id="price" placeholder="نرخی یەکە">
+    <input type="number" id="quantity" placeholder="ژمارە">
+    <button onclick="addItem()">زیادکردنی کاڵا</button>
+
+    <table id="items">
+      <thead>
+        <tr><th>کۆد</th><th>ناو</th><th>نرخ</th><th>ژمارە</th><th>گشتی</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <h2 id="total">نرخی گشتی: 0 دینار</h2>
+  </div>
+
+  <script>
+    const validUsername = "admin";
+    const validPassword = "1234";
+
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user === validUsername && pass === validPassword) {
+        document.getElementById("login").classList.add("hidden");
+        document.getElementById("app").classList.remove("hidden");
+      } else {
+        document.getElementById("loginError").innerText = "ناوی بەکارهێنەر یان پاسۆرد هەڵەیە";
+      }
+    }
+
+    let total = 0;
+
+    function addItem() {
+      const code = document.getElementById("code").value;
+      const name = document.getElementById("name").value;
+      const price = parseInt(document.getElementById("price").value);
+      const quantity = parseInt(document.getElementById("quantity").value);
+      const subtotal = price * quantity;
+
+      total += subtotal;
+
+      const row = `<tr><td>${code}</td><td>${name}</td><td>${price}</td><td>${quantity}</td><td>${subtotal}</td></tr>`;
+      document.querySelector("#items tbody").insertAdjacentHTML("beforeend", row);
+      document.getElementById("total").innerText = `نرخی گشتی: ${total} دینار`;
+
+      document.getElementById("code").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("quantity").value = "";
+    }
+  </script>
+</body>
+</html>
